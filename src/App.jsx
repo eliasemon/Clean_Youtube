@@ -7,12 +7,13 @@ const App = () =>{
   const action = useStoreActions(actions => actions)
  
   useEffect(() =>{
-    action.favourite.fvToggle("PL_XxuZqN0xVD0op-QDEgyXFA4fRPChvkl")
+    action.playList.collectDatafromYTApi("PL_XxuZqN0xVD0op-QDEgyXFA4fRPChvkl")
   },[])
  
   // console.log(state);
   return (
-    <></>
+    <>
+    <button onClick={() => action.favourite.fvToggle( {plId :"PL_XxuZqN0xVD0op-QDEgyXFA4fRPChvkl" , plItemDelete : false  })}> Click Me</button></>
   )
 }
 export default App

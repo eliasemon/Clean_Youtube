@@ -8,10 +8,11 @@ const playListModel = {
     removeItemFromPlItems : thunk((actions, plId , { getStoreActions , getStoreState})=>{
         const state = getStoreState()
         const {playList} = state
-        const {message , recents} = getStoreActions()
+        const {message , recents ,favourite} = getStoreActions()
         delete playList.plItems[plId]
         playList.plIdsArray = playList.plIdsArray.filter(v = v.plId != plId)
         recents.updateRcItems(playList.plIdsArray.slice(0,3))
+        favourite.fvToggle({plId : plId , plItemDelete : true})
         const payload = {
             action : "Deleted",
             message : "You Have Deleted The Playlist"

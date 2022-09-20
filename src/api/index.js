@@ -30,6 +30,7 @@ const getPlayListStaged = async (playlistId , result = {})=>{
                 channelTitle : vSorter.channelTitle,
                 description : vSorter.description,
                 thumbnails  : vSorter.thumbnails.medium,
+                favourite : false,
                 items :  (await getPlayList(playlistId)).map(v => v.snippet)
             }
             returnData.succeed = true;
