@@ -1,24 +1,30 @@
 import { action ,thunk} from 'easy-peasy';
 import getPlayListStaged from '../api/index';
 
+const localStorageKey = "Clean_Youtube_"
 const playListModel = {
     plItems : {a: 10, b: 20},
     plIdsArray : [],
     // actions 
-    removeItemFromPlItems : thunk((actions, plId , { getStoreActions , getStoreState})=>{
+    getDataFromLocalStorage : thunk((actions, payload , {getStoreState})=>{
         const state = getStoreState()
-        const {playList} = state
-        const {message , recents ,favourite} = getStoreActions()
-        delete playList.plItems[plId]
-        playList.plIdsArray = playList.plIdsArray.filter(v = v.plId != plId)
-        recents.updateRcItems(playList.plIdsArray.slice(0,3))
-        favourite.fvToggle({plId : plId , plItemDelete : true})
-        const payload = {
-            action : "Deleted",
-            message : "You Have Deleted The Playlist"
+       
+        const data = localStorage.getItem(localStorageKey);
+        if(data == null){
+            return {...state}
         }
-        message.setMsgInfo(payload)
-    }),
+        const dataState = JSON.parse(data)
+        console.log(data.favourite)
+        state.playList = dataState.playList
+        state.favourite = dataState.favourite
+        state.recents = dataState.recents
+        return {...state}
+    }), 
+    setDataToLocalStorage : thunk((actions, e , {getStoreState})=>{
+        e.preventDefault();
+        const state = getStoreState()
+        localStorage.setItem(localStorageKey, JSON.stringify(state));
+    }), 
     collectDatafromYTApi : thunk(async (actions, plId , { getStoreActions , getStoreState}) => {
         const state = getStoreState()
         const {playList} = state
@@ -30,7 +36,7 @@ const playListModel = {
                 message : "You Have already added this Playlist"
             }
             message.setMsgInfo(payload)
-            return state
+            return {...state}
         }
         if(Object.keys(state.playList.plItems).length >= 10){
             const payload = {
@@ -38,17 +44,17 @@ const playListModel = {
                 message : "You Have limited 10 quota of Playlist item , Wanna Remove Random One To Add This"
             }
             message.setMsgInfo(payload)
-            return state
+            return {...state}
         }
         const data = await getPlayListStaged(plId);
-        console.log(data)
+        
         if(!data.succeed){
             const payload = {
                 action : "Worng Playlist Key",
                 message : "You Have Provided Worng PlayList Key , Try To place Correct Playlist key"
             }
             message.setMsgInfo(payload)
-            return state
+            return {...state}
         }
         playList.plItems[plId] = data.result;
         playList.plIdsArray.unshift(plId)
@@ -58,6 +64,24 @@ const playListModel = {
             message : "PlayList Added"
         }
         message.setMsgInfo(payload)
+        return {...state}
+    }),
+
+    removeItemFromPlItems : thunk((actions, plId , { getStoreActions , getStoreState})=>{
+        const state = getStoreState()
+        const {playList} = state
+        const {message , recents ,favourite} = getStoreActions()
+        
+        delete playList.plItems[plId]
+        playList.plIdsArray = playList.plIdsArray.filter(v => v != plId)
+        recents.updateRcItems(playList.plIdsArray.slice(0,3))
+        favourite.fvToggle({plId : plId , plItemDelete : true})
+        const payload = {
+            action : "Deleted",
+            message : "You Have Deleted The Playlist"
+        }
+        message.setMsgInfo(payload)
+        return {...state}
     }),
 }
 
