@@ -1,9 +1,11 @@
 import { useState,useEffect } from 'react'
-import './App.css'
-import getPlayListStaged from './api/index';
 import { useStoreState ,useStoreActions } from 'easy-peasy';
+import Navbar from './components/navbar/index';
+import PlaylistAdder from './components/playlistAdder/PlayListAdder';
+import Message from './message/index';
+import PLCard from './components/card/index';
 const App = () =>{
-  const state = useStoreState(state => state)
+  const {plIdsArray} = useStoreState(state => state.playList)
   const action = useStoreActions(actions => actions)
  
   useEffect(() =>{
@@ -16,9 +18,13 @@ const App = () =>{
   // console.log(state);
   return (
     <>
-    <button onClick={() => action.favourite.fvToggle( {plId :"PL_XxuZqN0xVD0op-QDEgyXFA4fRPChvkl" , plItemDelete : false  })}> Add to favourite</button>
-    <button onClick={() => action.playList.collectDatafromYTApi("PL_XxuZqN0xVD0op-QDEgyXFA4fRPChvkl")}> Add Playlist</button>
-    <button onClick={() => action.playList.removeItemFromPlItems("PL_XxuZqN0xVD0op-QDEgyXFA4fRPChvkl")}> Click Me for delete item</button>
+      <Message/>
+      <Navbar/>
+      <PlaylistAdder/>
+
+      {plIdsArray.map(id => ( <PLCard plId = {id} />))}
+     
+
     </>
     
   )

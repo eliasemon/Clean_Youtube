@@ -1,0 +1,4 @@
+
+const CardLoader = ({heading , IdsArray}) =>{
+    
+}
