@@ -32,7 +32,6 @@ const playListModel = {
             return {...state}
         }
         const dataState = JSON.parse(data)
-        console.log(data.favourite)
         state.playList = dataState.playList
         state.favourite = dataState.favourite
         state.recents = dataState.recents
@@ -56,6 +55,7 @@ const playListModel = {
             }
             message.setMsgInfo(payload)
             return {...state}
+            
         }
         // if the playlist is alrady in the state 
         if(playList.plItems[plId]){

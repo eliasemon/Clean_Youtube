@@ -8,13 +8,13 @@ import Typography from '@mui/material/Typography';
 import { useStoreState, useStoreActions, action } from 'easy-peasy';
 import DeleteConfirmation from '../deleteConfermation/index';
 import StarIcon from '@mui/icons-material/Star';
+import { useNavigate } from "react-router-dom";
 
-const PLCard = ({plId})=> {
-  const {plItems}  = useStoreState(state => state.playList)
+const PLCard = ({plId , item ,type})=> {
+  const Navigate = useNavigate()
   const {playList ,favourite} = useStoreActions(actions => actions)
   const {removeItemFromPlItems} = playList
   const {fvToggle} = favourite;
-  const item = plItems[plId]
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -28,14 +28,29 @@ const PLCard = ({plId})=> {
     setOpen(false);
     removeItemFromPlItems(plId)
   }
+
+  const Actions =  (<CardActions sx={{padding : 0 ,paddingBottom : 1, justifyContent : "space-evenly"}} >
+                                <Button onClick = {()=> Navigate(`viewPlaylist/${plId}`, { replace: false})} size="small">Open</Button>
+                                <StarIcon 
+                                  style={{ opacity: (item.favourite ? 1 : 0.55) }} 
+                                  sx={{ cursor : 'pointer',color : (item.favourite ? '#FAAF00' : '') ,fontSize : 30,'&:hover': {
+                                    color: '#FAAF00',
+                                  } } }
+                                  onClick={()=>fvToggle({plId})}
+                                />
+                                <Button  onClick = {handleClickOpen} size="small" sx={{color : "red" , paddingRight : 1.5}}>Delete</Button>
+                                <DeleteConfirmation open = {open} handleClose = {handleClose}   handleAgree = {handleAgree}  plTittle = {item.tittle} />
+                              </CardActions>);
+
   return (
     <Card sx={{ maxWidth: 300 }}>
       <CardMedia
         component="img"
-        height="140"
-        image={item.thumbnails.url}
+        height="130"
+        image={item.thumbnails}
         alt={item.tittle}
       />
+      {/* {item.thumbnails.url} */}
       <CardContent sx={{padding : 1 }}>
         <Typography sx = {{paddingBottom : 0}}  variant="p" component="div">
        
@@ -45,16 +60,7 @@ const PLCard = ({plId})=> {
           {`By.. ${item.channelTitle}`} 
         </Typography>
       </CardContent>
-      <CardActions sx={{padding : 0 ,paddingBottom : 1, justifyContent : "space-evenly"}} >
-        <Button size="small">Open</Button>
-        <StarIcon 
-          style={{ opacity: (item.favourite ? 1 : 0.55) }} 
-          sx={{color : (item.favourite ? '#FAAF00' : '') ,fontSize : 30 } }
-          onClick={()=>fvToggle({plId})}
-        />
-        <Button  onClick = {handleClickOpen} size="small" sx={{color : "red" , paddingRight : 1.5}}>Delete</Button>
-      </CardActions>
-      <DeleteConfirmation open = {open} handleClose = {handleClose}   handleAgree = {handleAgree}  plTittle = {item.tittle} />
+       {type == "playList"? Actions : "" }
     </Card>
   );
 }
