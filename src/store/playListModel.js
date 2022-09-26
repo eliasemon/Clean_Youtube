@@ -92,7 +92,7 @@ const playListModel = {
             return {...state}
         }
         playListAction.addDataToPlITem(data.result);
-        recents.updateRcItems(playList.plIdsArray.slice(0,3))
+        recents.updateRcItems(plId)
         const payload = {
             action : "Succeed",
             message : "PlayList Added",
@@ -109,7 +109,7 @@ const playListModel = {
 
         playListAction.deleteData(plId)
         favourite.fvToggle({plId : plId , plItemDelete : true})
-        recents.updateRcItems(playList.plIdsArray.slice(0,3))
+        recents.removeFromRcItem(plId)
         const payload = {
             action : "Deleted",
             message : "You Have Deleted The Playlist",

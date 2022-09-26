@@ -12,8 +12,8 @@ import Container from '@mui/material/Container';
 const Navbar  = ()=>{
   const Navigate = useNavigate()
   return (
-    <Box>
-      <AppBar position="static">
+    <Box sx={{position : "sticky" , top : 0 , zIndex : 1}}>
+      <AppBar position="sticky" sx={{top : 0}}>
           <Toolbar  sx={{justifyContent : 'space-between'}}>
             <Typography  variant="h6" component="div" sx={{ flexGrow: 1 , alignSelf : 'center' }}>
               <span onClick= {()=> Navigate(`/`, { replace: true})} style={{cursor : 'pointer'}}>CleanYouTube</span>

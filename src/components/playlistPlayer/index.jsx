@@ -32,17 +32,22 @@ const PlaylistPlayer = ()=>{
     let playerHeight;
     let playerSidebarWidth; 
     let  playerSidebarHeight;
+    let cardWidth;
     if(windowWidth >= 900){
         playerWidth = ((windowWidth / 100) * 58)
         playerSidebarWidth = `${((windowWidth / 100) * 28)}px`
         playerHeight = ((playerWidth / 2) * 1.2)
         playerSidebarHeight = `${playerHeight}px`
+        cardWidth = `${((windowWidth / 100) * 21)}px` 
     }
     else{
         playerWidth = ((windowWidth / 100) * 90)
         playerSidebarWidth =  `${((windowWidth / 100) * 90)}px`
-        playerSidebarHeight = 'auto'
+        playerSidebarHeight = 150
         playerHeight = ((playerWidth / 2) * 1.2)
+    }
+    if(windowWidth >= 1400){
+        cardWidth = `auto` 
     }
     
     const onEndHandeler = ()=>{
@@ -94,7 +99,7 @@ const PlaylistPlayer = ()=>{
                 <div style={{flexGrow : 1}}>
                      <div style={{display : 'flex',flexWrap : 'wrap' , justifyContent : 'flex-start'}}>
                             {items.map((v)=>{
-                                return ( <a  key={v.videoId} href='#Player_' style={{ position : 'relative', textDecoration: 'none', margin : '10px'}} onClick={()=> handleVideoState({index : v.position , videoId : v.videoId})}>
+                                return ( <a  key={v.videoId} href='#Player_' style={{ boxSizing : "border-box", overflow : 'hidden', width : cardWidth, position : 'relative', textDecoration: 'none', margin : '10px'}} onClick={()=> handleVideoState({index : v.position , videoId : v.videoId})}>
                                         {(v.videoId == videoId) ? playingIndicator : ""}
                                         <PLCard item={v} key={v.videoId}/> 
                                       </a>)

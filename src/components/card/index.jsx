@@ -8,11 +8,12 @@ import Typography from '@mui/material/Typography';
 import { useStoreState, useStoreActions, action } from 'easy-peasy';
 import DeleteConfirmation from '../deleteConfermation/index';
 import StarIcon from '@mui/icons-material/Star';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useNavigate } from "react-router-dom";
 
 const PLCard = ({plId , item ,type})=> {
   const Navigate = useNavigate()
-  const {playList ,favourite} = useStoreActions(actions => actions)
+  const {playList ,favourite , recents} = useStoreActions(actions => actions)
   const {removeItemFromPlItems} = playList
   const {fvToggle} = favourite;
   const [open, setOpen] = useState(false);
@@ -30,11 +31,11 @@ const PLCard = ({plId , item ,type})=> {
   }
 
   const Actions =  (<CardActions sx={{padding : 0 ,paddingBottom : 1, justifyContent : "space-evenly"}} >
-                                <Button onClick = {()=> Navigate(`viewPlaylist/${plId}`, { replace: false})} size="small">Open</Button>
-                                <StarIcon 
+                                <Button onClick = {()=> {Navigate(`viewPlaylist/${plId}`, { replace: false});recents.updateRcItems(plId) }} size="small">Open</Button>
+                                <FavoriteIcon 
                                   style={{ opacity: (item.favourite ? 1 : 0.55) }} 
-                                  sx={{ cursor : 'pointer',color : (item.favourite ? '#FAAF00' : '') ,fontSize : 30,'&:hover': {
-                                    color: '#FAAF00',
+                                  sx={{ cursor : 'pointer',color : (item.favourite ? 'red' : '') ,fontSize : 30,'&:hover': {
+                                    color: 'red' ,
                                   } } }
                                   onClick={()=>fvToggle({plId})}
                                 />

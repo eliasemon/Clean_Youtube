@@ -10,7 +10,6 @@ import CardLoader from './components/cardLoader/index';
 const PlaylistAdder =  lazy(() => import('./components/playlistAdder/PlayListAdder'));
 
 const App = () =>{
-  const {plIdsArray} = useStoreState(state => state.playList)
   const action = useStoreActions(actions => actions)
  
   useEffect(() =>{
@@ -27,7 +26,7 @@ const App = () =>{
       <PlaylistAdder/>
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-            <Route path="/" element={<CardLoader idsArray={plIdsArray}/>} />
+            <Route path="/" element={<CardLoader/>} />
             <Route path="viewPlaylist/:plId" element={<PlaylistPlayer />} />
         </Routes>
       </Suspense>
