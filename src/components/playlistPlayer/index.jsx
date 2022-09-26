@@ -11,6 +11,8 @@ import { fontSize } from '@mui/system';
 import ContentShower from './ContentShower';
 
 const PlaylistPlayer = ()=>{
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
     const {plId} = useParams()
     const {plItems} = useStoreState(state => state.playList);
     const {playingIndexAc} = useStoreActions(actions => actions.playList)
@@ -27,7 +29,6 @@ const PlaylistPlayer = ()=>{
     const [videoId, setvedioId] = useState(items[playingIndex].videoId)
     const [fc,setFc] = useState('')
     const {windowHeight,windowWidth} = useWindowLength();
-
     let playerWidth;
     let playerHeight;
     let playerSidebarWidth; 
@@ -99,7 +100,7 @@ const PlaylistPlayer = ()=>{
                 <div style={{flexGrow : 1}}>
                      <div style={{display : 'flex',flexWrap : 'wrap' , justifyContent : 'flex-start'}}>
                             {items.map((v)=>{
-                                return ( <a  key={v.videoId} href='#Player_' style={{ boxSizing : "border-box", overflow : 'hidden', width : cardWidth, position : 'relative', textDecoration: 'none', margin : '10px'}} onClick={()=> handleVideoState({index : v.position , videoId : v.videoId})}>
+                                return ( <a  key={v.videoId}  style={{ boxSizing : "border-box", overflow : 'hidden', width : cardWidth, position : 'relative', textDecoration: 'none', margin : '10px'}} onClick={()=> handleVideoState({index : v.position , videoId : v.videoId})}>
                                         {(v.videoId == videoId) ? playingIndicator : ""}
                                         <PLCard item={v} key={v.videoId}/> 
                                       </a>)
