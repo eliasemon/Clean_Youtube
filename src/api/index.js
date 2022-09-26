@@ -19,7 +19,6 @@ const getPlayListStaged = async (playlistId , result = {})=>{
         returnData.status = status
         if(data.items.length == 0  || status == '404'){
             //if playlist id is incorrect!!!
-            console.log("happend")
             returnData.succeed = false;
         }else{
             const vSorter =  data?.items[0]?.snippet 
@@ -47,7 +46,6 @@ const getPlayListStaged = async (playlistId , result = {})=>{
             returnData.succeed = true;
         }
     } catch (error) {
-        console.log(error)
         returnData.succeed = false;
         returnData.status = 400;
         returnData.error = error;
