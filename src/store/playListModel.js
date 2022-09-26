@@ -8,6 +8,10 @@ const playListModel = {
     plIdsArray : [],
 
     // actions 
+    playingIndexAc : thunk((actions,{plId , playingIndex} , {getStoreState})=>{
+       const {playList} = getStoreState()
+       playList.plItems[plId].playingIndex = playingIndex;
+    }),
     addDataToPlITem : action(({plItems,plIdsArray} , data)=>{
         plItems[data.plId] = data;
         plIdsArray.unshift(data.plId)

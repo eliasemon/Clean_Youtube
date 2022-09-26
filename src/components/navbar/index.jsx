@@ -6,26 +6,20 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-
+import { useNavigate } from "react-router-dom";
+import HomeIcon from '@mui/icons-material/Home';
+import Container from '@mui/material/Container';
 const Navbar  = ()=>{
+  const Navigate = useNavigate()
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box>
       <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{display : {lg : 'none' , xl : 'none' ,  mr: 2}}}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 , alignSelf : 'center' }}>
-            CleanYoutube
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
+          <Toolbar  sx={{justifyContent : 'space-between'}}>
+            <Typography  variant="h6" component="div" sx={{ flexGrow: 1 , alignSelf : 'center' }}>
+              <span onClick= {()=> Navigate(`/`, { replace: true})} style={{cursor : 'pointer'}}>CleanYouTube</span>
+            </Typography>
+            <Button onClick= {()=> Navigate(`/`, { replace: true})} color="inherit"><HomeIcon sx={{color : '#ffff' ,fontSize : 40}}/></Button>
+          </Toolbar>
       </AppBar>
     </Box>
   );

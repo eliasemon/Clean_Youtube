@@ -32,6 +32,7 @@ const getPlayListStaged = async (playlistId , result = {})=>{
                 description : vSorter?.description,
                 thumbnails  : vSorter?.thumbnails?.medium?.url,
                 favourite : false,
+                playingIndex : 0,
                 items :  (await getPlayList(playlistId)).map((v) => {
                     return {
                         tittle : v?.snippet?.title,

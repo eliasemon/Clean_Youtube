@@ -17,7 +17,19 @@ const favouriteModel = {
             actions.fvToggleInternalDelete(plId)
             return {...state}
         }
-        if( favourite.fvitem.length == 3) {
+        const index =  favourite.fvitem.indexOf(plId)
+        if(index !== -1){
+            actions.fvToggleInternalDelete(plId)
+            playList.favouriteTgChanger({plId : plId , data : false})
+            const payload = {
+                action : "Removed From Favourite",
+                message : "The Item is Removed From your Favourite list",
+                id : uuid()
+            }
+            message.setMsgInfo(payload)
+            return {...state}
+        }
+        if(favourite.fvitem.length == 3) {
             const payload = {
                 action : "Favourite quota Over",
                 message : "You can add only 3 items on favourite list , Remove one and try again"
@@ -26,7 +38,6 @@ const favouriteModel = {
             message.setMsgInfo(payload)
             return {...state}
         }
-        const index =  favourite.fvitem.indexOf(plId)
         if(index == -1) {
             actions.fvToggleInternalAdd(plId)
             playList.favouriteTgChanger({plId : plId , data : true})
@@ -38,14 +49,7 @@ const favouriteModel = {
             message.setMsgInfo(payload)
             return {...state}
         }
-        actions.fvToggleInternalDelete(plId)
-        playList.favouriteTgChanger({plId : plId , data : false})
-        const payload = {
-            action : "Removed From Favourite",
-            message : "The Item is Removed From your Favourite list",
-            id : uuid()
-        }
-        message.setMsgInfo(payload)
+        
     } )
 } 
 export default favouriteModel

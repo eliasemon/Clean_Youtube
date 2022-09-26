@@ -6,49 +6,66 @@ import { useEffect , useState } from 'react';
 import useWindowLength from '../hooks/useWindowLength';
 import PLCard from '../card/index';
 import { useParams } from 'react-router-dom';
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import { fontSize } from '@mui/system';
+import ContentShower from './ContentShower';
 
 const PlaylistPlayer = ()=>{
     const {plId} = useParams()
     const {plItems} = useStoreState(state => state.playList);
-    const {collectDatafromYTApi} = useStoreActions(actions => actions.playList)
+    const {playingIndexAc} = useStoreActions(actions => actions.playList)
     useEffect(()=>{
-        if(!plItems[plId]){
-            collectDatafromYTApi(plId)
-        }
         setTimeout(() => {
             setFc(true)
         }, 1);
     },[])
     const YTurl = 'https://www.youtube.com/watch?v='
     const PL = plItems[plId];
+    const {playingIndex} = PL;
     const items = PL.items;
-    const [videoId, setvedioId] = useState(items[0].videoId)
-    const [itemIndex,setItemIndex] = useState(0)
+    const [itemIndex,setItemIndex] = useState(playingIndex)
+    const [videoId, setvedioId] = useState(items[playingIndex].videoId)
     const [fc,setFc] = useState('')
     const {windowHeight,windowWidth} = useWindowLength();
+
     let playerWidth;
+    let playerHeight;
+    let playerSidebarWidth; 
+    let  playerSidebarHeight;
     if(windowWidth >= 900){
         playerWidth = ((windowWidth / 100) * 58)
+        playerSidebarWidth = `${((windowWidth / 100) * 28)}px`
+        playerHeight = ((playerWidth / 2) * 1.2)
+        playerSidebarHeight = `${playerHeight}px`
     }
     else{
         playerWidth = ((windowWidth / 100) * 90)
+        playerSidebarWidth =  `${((windowWidth / 100) * 90)}px`
+        playerSidebarHeight = 'auto'
+        playerHeight = ((playerWidth / 2) * 1.2)
     }
-    let playerHeight = ((playerWidth / 2) * 1.2)
+    
     const onEndHandeler = ()=>{
         if((items.length)-1 > itemIndex){
             setvedioId(items[itemIndex + 1].videoId)
+            playingIndexAc({plId : plId , playingIndex : (itemIndex+1)})
+            
             setItemIndex(itemIndex+1)
-           
+            
         }
         
     }
     const handleVideoState = ({index ,videoId })=>{
         setvedioId(videoId),
+        playingIndexAc({plId : plId , playingIndex : index})
         setItemIndex(index)
-    }    
+    } 
+    const playingIndicator = (<div style={{ textAlign: 'center', width : "100%",position : 'absolute' ,top : 0, left : 0, background : 'rgb(0,0,0 , 0.7)'}}>
+        <PlayCircleOutlineIcon sx={{color : '#ffff' , fontSize : 125}} />
+    </div>)   
     return (
             <div style={{background : '#F9F9F9' ,width : `${(windowWidth / 100) * 90}px` , margin : '0 auto' }}>
-                <div>
+                <div style={{display : 'flex', flexWrap : 'wrap'}}>
                     <div id="Player_" style={{height : `${playerHeight}px`, width : `${playerWidth}px`}}>
                             <ReactPlayer
                                 playing
@@ -70,11 +87,17 @@ const PlaylistPlayer = ()=>{
                                 url={`${YTurl}${videoId}`} 
                             />
                     </div>
+                    <div style = {{ height : playerSidebarHeight , overflowX : "scroll",background: '#ffff', margin : '0 auto',boxSizing : 'border-box' , width : playerSidebarWidth}}>
+                        <ContentShower item = {items[itemIndex]} plItem = {PL} index = {itemIndex} />
+                    </div>
                 </div>
                 <div style={{flexGrow : 1}}>
                      <div style={{display : 'flex',flexWrap : 'wrap' , justifyContent : 'flex-start'}}>
                             {items.map((v)=>{
-                                return ( <a href='#Player_' style={{ textDecoration: 'none', margin : '10px'}} onClick={()=> handleVideoState({index : v.position , videoId : v.videoId})}><PLCard item={v} key={v.videoId}/> </a>)
+                                return ( <a  key={v.videoId} href='#Player_' style={{ position : 'relative', textDecoration: 'none', margin : '10px'}} onClick={()=> handleVideoState({index : v.position , videoId : v.videoId})}>
+                                        {(v.videoId == videoId) ? playingIndicator : ""}
+                                        <PLCard item={v} key={v.videoId}/> 
+                                      </a>)
                             })}
                      </div>
                 </div>
