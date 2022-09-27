@@ -16,9 +16,17 @@ const Navbar  = ()=>{
       <AppBar position="sticky" sx={{top : 0}}>
           <Toolbar  sx={{justifyContent : 'space-between'}}>
             <Typography  variant="h6" component="div" sx={{ flexGrow: 1 , alignSelf : 'center' }}>
-              <span onClick= {()=> Navigate(`/`, { replace: true})} style={{cursor : 'pointer'}}>CleanYouTube</span>
+              <span onClick= {()=> {
+                Navigate(`/`, { replace: true}) ; 
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+                }} style={{cursor : 'pointer'}}>CleanYouTube</span>
             </Typography>
-            <Button onClick= {()=> Navigate(`/`, { replace: true})} color="inherit"><HomeIcon sx={{color : '#ffff' ,fontSize : 40}}/></Button>
+            <Button onClick= {()=> {
+                Navigate(`/`, { replace: true}) ; 
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+                }} color="inherit"><HomeIcon sx={{color : '#ffff' ,fontSize : 40}}/></Button>
           </Toolbar>
       </AppBar>
     </Box>
