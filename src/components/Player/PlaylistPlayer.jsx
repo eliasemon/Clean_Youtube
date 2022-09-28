@@ -64,20 +64,28 @@ const PlaylistPlayer = ({plId})=>{
         document.documentElement.scrollTop = 0;
         setItemIndex(index)
     }
-    let player
-  const onSuccess = ({ ref }) => {
-    const videoElement = ref.el().querySelector("video");
+    
+    let elem = document.getElementById("Player_");
 
-    ref.playsinline(true); // 👈 can I set this via the ReactPlayerLoader?
-    videoElement.style = { pointerEvents: "none" };
-
-    // preventing listener does not work
-    ref.on("fullscreenchange", event => {
-      event.preventDefault();
-      return false;
-    });
-    player = ref;
-  };
+    /* Function to open fullscreen mode */
+    function openFullscreen() {
+      /* If fullscreen mode is available, show the element in fullscreen */
+      if (
+        document.fullscreenEnabled || /* Standard syntax */
+        document.webkitFullscreenEnabled || /* Safari */
+        document.msFullscreenEnabled /* IE11 */
+      ) {
+       
+        /* Show the element in fullscreen */
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen(); /* Standard syntax */
+        } else if (elem.webkitRequestFullscreen) { /* Safari */
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { /* IE11 */
+          elem.msRequestFullscreen();
+        }
+      }
+    }
     const playingIndicator = (<div style={{ textAlign: 'center', width : "100%",position : 'absolute' ,top : 0, left : 0, background : 'rgb(0,0,0 , 0.7)'}}>
         <PlayCircleOutlineIcon sx={{color : '#ffff' , fontSize : 125}} />
     </div>)   
@@ -86,23 +94,26 @@ const PlaylistPlayer = ({plId})=>{
                 <div style={{display : 'flex', flexWrap : 'wrap'}}>
                     <div id="Player_" style={{height : `${playerHeight}px`, width : `${playerWidth}px`}}>
                             <ReactPlayer
+                                id = "myvideo"
                                 playing
-                                onSuccess={onSuccess}
+                                onSuccess={openFullscreen}
                                 onEnded= {onEndHandeler}
+                                pip = {true}
+                                stopOnUnmount={false}
                                 config={{
                                     youtube: {
                                         playerVars: { 
                                             rel : 0,
                                             autoplay : 1,
                                             modestbranding : 1,
-                                            
+                                            pip : true
                                         },
                                     },
                                 }}
                                 width = "100%"
                                 height= "100%"
                                 controls = {true}
-                                pip = {true}
+
                                 url={`${YTurl}${videoId}`} 
                             />
                     </div>
