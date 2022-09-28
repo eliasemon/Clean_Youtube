@@ -102,7 +102,6 @@ const playListModel = {
         }
         await playListAction.addDataToPlITem(data.result);
         await loadingState.changeState(false);
-        recents.updateRcItems(plId)
         const payload = {
             action : "Succeed",
             message : "PlayList Added",

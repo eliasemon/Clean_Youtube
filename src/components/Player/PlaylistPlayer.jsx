@@ -63,7 +63,21 @@ const PlaylistPlayer = ({plId})=>{
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
         setItemIndex(index)
-    } 
+    }
+    let player
+  const onSuccess = ({ ref }) => {
+    const videoElement = ref.el().querySelector("video");
+
+    ref.playsinline(true); // 👈 can I set this via the ReactPlayerLoader?
+    videoElement.style = { pointerEvents: "none" };
+
+    // preventing listener does not work
+    ref.on("fullscreenchange", event => {
+      event.preventDefault();
+      return false;
+    });
+    player = ref;
+  };
     const playingIndicator = (<div style={{ textAlign: 'center', width : "100%",position : 'absolute' ,top : 0, left : 0, background : 'rgb(0,0,0 , 0.7)'}}>
         <PlayCircleOutlineIcon sx={{color : '#ffff' , fontSize : 125}} />
     </div>)   
@@ -73,6 +87,7 @@ const PlaylistPlayer = ({plId})=>{
                     <div id="Player_" style={{height : `${playerHeight}px`, width : `${playerWidth}px`}}>
                             <ReactPlayer
                                 playing
+                                onSuccess={onSuccess}
                                 onEnded= {onEndHandeler}
                                 config={{
                                     youtube: {

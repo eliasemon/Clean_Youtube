@@ -8,11 +8,13 @@ import { useNavigate } from "react-router-dom";
 import HomeIcon from '@mui/icons-material/Home';
 import Stack from '@mui/material/Stack';
 import logo from './logo.png'
+import useWindowLength from '../hooks/useWindowLength';
 const Navbar  = ()=>{
   const Navigate = useNavigate()
+   const {windowWidth }  = useWindowLength();
   return (
     <Box sx={{position : "sticky" , top : 0 , zIndex : 1 }}>
-      <AppBar position="sticky" sx={{top : 0 , background : '#486CDE'}}>
+      <AppBar position="sticky" sx={{ width : `${windowWidth}px`,top : 0 , background : '#486CDE'}}>
           <Toolbar  sx={{justifyContent : 'space-between' , alignItems : 'center'}}>
             <div>
               <span onClick= {()=> {
