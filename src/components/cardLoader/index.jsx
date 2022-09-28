@@ -4,6 +4,7 @@ import PLCard from '../card/index';
 import useWindowLength from '../hooks/useWindowLength';
 import { useState , useEffect } from 'react';
 import logo from './NtFound.gif'
+import { height } from '@mui/system';
 
 
 const CardLoader = () =>{
@@ -16,7 +17,7 @@ const CardLoader = () =>{
     const favouriteUi = (<><h4 style={{margin : 5 }}>Favourites: </h4> <div style = {{display : 'flex' , flexWrap : 'wrap' , gap : "20px"}}> {fvitem.map(id => ( <PLCard key = {id} plId = {id} item = {plItems[id]} type = "playList" />))}</div></>)
     const recentsUi = (<><h4 style={{marginBottom : 5 , marginTop : 30 }}>Recents Activity: </h4> <div style = {{display : 'flex' , flexWrap : 'wrap', gap : "20px"}}> {rcItem.map(id => ( <PLCard key = {id} plId = {id} item = {plItems[id]} type = "playList" />))}</div></>)
     const allPlUi = (<><h4 style={{marginBottom : 5 ,  marginTop : 30 }}>All Playlist: </h4> <div style = {{display : 'flex' , flexWrap : 'wrap', gap : "20px"}}> {plIdsArray.map(id => ( <PLCard key = {id} plId = {id} item = {plItems[id]} type = "playList" />))}</div></>)
-    const NtUi = (<><img style={{width : '100%' , height :windowHeight }} src={logo} alt="Nothing Found" /></>)
+    const NtUi = (<div style = {{width : '100%' , height : '89vh' , display : 'flex' , justifyContent : 'center' ,alignItems : 'center'}}><img style={{margin : '0 auto' }} src={logo} alt="Nothing Found" /></div>)
     const [fc,setFc] = useState('')
     useEffect(()=>{
         setTimeout(() => {
