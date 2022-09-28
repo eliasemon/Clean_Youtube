@@ -34,7 +34,7 @@ const playListModel = {
         await loadingState.changeState(true);
         const data = localStorage.getItem(localStorageKey);
         if(data == null){
-            await loadingState.changeState(true)
+            await loadingState.changeState(false)
             return {...state}
         }
         const dataState = JSON.parse(data)
