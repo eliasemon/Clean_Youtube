@@ -7,12 +7,12 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import ContentShower from './ContentShower';
 
 const PlaylistPlayer = ({plId})=>{
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
     const {plItems} = useStoreState(state => state.playList);
     const {playingIndexAc} = useStoreActions(actions => actions.playList)
     useEffect(()=>{
         setTimeout(() => {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
             setFc(true)
         }, 1);
     },[])
@@ -50,7 +50,8 @@ const PlaylistPlayer = ({plId})=>{
         if((items.length)-1 > itemIndex){
             setvedioId(items[itemIndex + 1].videoId)
             playingIndexAc({plId : plId , playingIndex : (itemIndex+1)})
-            
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
             setItemIndex(itemIndex+1)
             
         }
@@ -59,6 +60,8 @@ const PlaylistPlayer = ({plId})=>{
     const handleVideoState = ({index ,videoId })=>{
         setvedioId(videoId),
         playingIndexAc({plId : plId , playingIndex : index})
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
         setItemIndex(index)
     } 
     const playingIndicator = (<div style={{ textAlign: 'center', width : "100%",position : 'absolute' ,top : 0, left : 0, background : 'rgb(0,0,0 , 0.7)'}}>
