@@ -28,18 +28,22 @@ const playListModel = {
         state.plItems[plId].favourite = data;
     }),
     // thunk  
-    getDataFromLocalStorage : thunk((actions, payload , {getStoreState})=>{
+    getDataFromLocalStorage : thunk(async(actions, payload , {getStoreState , getStoreActions})=>{
         const state = getStoreState()
-       
+        const {loadingState} = getStoreActions()
+        await loadingState.changeState(true);
         const data = localStorage.getItem(localStorageKey);
         if(data == null){
+            state.loadingState = false;
             return {...state}
         }
         const dataState = JSON.parse(data)
         state.playList = dataState.playList
         state.favourite = dataState.favourite
         state.recents = dataState.recents
-        actions.stateFrocedReload()
+        await actions.stateFrocedReload()
+
+        await loadingState.changeState(false);
         return {...state}
     }), 
     setDataToLocalStorage : thunk((actions, e , {getStoreState})=>{
@@ -50,13 +54,15 @@ const playListModel = {
     collectDatafromYTApi : thunk(async (actions, plId , { getStoreActions , getStoreState}) => {
         const state = getStoreState()
         const {playList} = state
-        const {message , recents , playList : playListAction} = getStoreActions()
+        const {message , recents , loadingState ,playList : playListAction} = getStoreActions()
+        await loadingState.changeState(true);
         if(plId == undefined){
             const payload = {
                 action : "Worng Playlist Key",
                 message : "You Have Provided Worng PlayList Key , Try To place Correct Playlist key"
                 ,id : uuid()
             }
+           await loadingState.changeState(false);
             message.setMsgInfo(payload)
             return {...state}
             
@@ -68,6 +74,7 @@ const playListModel = {
                 message : "You Have already added this Playlist",
                 id : uuid()
             }
+           await loadingState.changeState(false);
             message.setMsgInfo(payload)
             return {...state}
         }
@@ -77,6 +84,7 @@ const playListModel = {
                 message : "You Have limited 10 quota of Playlist item , Please Remove One and add"
                 ,id : uuid()
             }
+            await loadingState.changeState(false);
             message.setMsgInfo(payload)
             return {...state}
         }
@@ -88,10 +96,12 @@ const playListModel = {
                 message : "You Have Provided Worng PlayList Key , Try To place Correct Playlist key"
                 ,id : uuid()
             }
+            await loadingState.changeState(false);
             message.setMsgInfo(payload)
             return {...state}
         }
-        playListAction.addDataToPlITem(data.result);
+        await playListAction.addDataToPlITem(data.result);
+        await loadingState.changeState(false);
         recents.updateRcItems(plId)
         const payload = {
             action : "Succeed",

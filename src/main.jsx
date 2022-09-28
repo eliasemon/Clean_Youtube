@@ -4,12 +4,12 @@ import App from './App'
 import { StoreProvider } from 'easy-peasy';
 import store  from './store';
 import CssBaseline from '@mui/material/CssBaseline';
-import { MemoryRouter ,ScrollRestoration  } from "react-router-dom";
+import { BrowserRouter  } from "react-router-dom";
 ReactDOM.createRoot(document.getElementById('root')).render(
   <StoreProvider store={store}>
     <CssBaseline />
-    <MemoryRouter>
+    <BrowserRouter>
       <App />
-    </MemoryRouter>
+    </BrowserRouter>
   </StoreProvider>
 )

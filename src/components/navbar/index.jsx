@@ -4,24 +4,31 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from "react-router-dom";
 import HomeIcon from '@mui/icons-material/Home';
-import Container from '@mui/material/Container';
+import Stack from '@mui/material/Stack';
+import logo from './logo.png'
 const Navbar  = ()=>{
   const Navigate = useNavigate()
   return (
-    <Box sx={{position : "sticky" , top : 0 , zIndex : 1}}>
-      <AppBar position="sticky" sx={{top : 0}}>
-          <Toolbar  sx={{justifyContent : 'space-between'}}>
-            <Typography  variant="h6" component="div" sx={{ flexGrow: 1 , alignSelf : 'center' }}>
+    <Box sx={{position : "sticky" , top : 0 , zIndex : 1 }}>
+      <AppBar position="sticky" sx={{top : 0 , background : '#486CDE'}}>
+          <Toolbar  sx={{justifyContent : 'space-between' , alignItems : 'center'}}>
+            <div>
               <span onClick= {()=> {
                 Navigate(`/`, { replace: true}) ; 
                 document.body.scrollTop = 0;
                 document.documentElement.scrollTop = 0;
-                }} style={{cursor : 'pointer'}}>CleanYouTube</span>
-            </Typography>
+                }} style={{cursor : 'pointer'}}>
+                  <Stack spacing={0} sx={{padding : 1}}>
+                      <img style={{width : '70px' , height : "44px" }} src={logo} alt="Nothing Found" />
+                      <Typography  sx={{color : '#ffff' ,fontSize : 10 , margin : 0 , lineHeight : 1}} variant="subtitle1" gutterBottom>
+                          CleanYoutube
+                      </Typography>
+                  </Stack>
+                  
+                </span>
+            </div>
             <Button onClick= {()=> {
                 Navigate(`/`, { replace: true}) ; 
                 document.body.scrollTop = 0;

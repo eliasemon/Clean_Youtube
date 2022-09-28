@@ -1,19 +1,14 @@
-import Stack from '@mui/material/Stack';
-import Container from '@mui/material/Container';
 import ReactPlayer from 'react-player'
 import { useStoreState ,useStoreActions } from 'easy-peasy';
 import { useEffect , useState } from 'react';
 import useWindowLength from '../hooks/useWindowLength';
 import PLCard from '../card/index';
-import { useParams } from 'react-router-dom';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
-import { fontSize } from '@mui/system';
 import ContentShower from './ContentShower';
 
-const PlaylistPlayer = ()=>{
+const PlaylistPlayer = ({plId})=>{
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
-    const {plId} = useParams()
     const {plItems} = useStoreState(state => state.playList);
     const {playingIndexAc} = useStoreActions(actions => actions.playList)
     useEffect(()=>{
@@ -100,7 +95,7 @@ const PlaylistPlayer = ()=>{
                 <div style={{flexGrow : 1}}>
                      <div style={{display : 'flex',flexWrap : 'wrap' , justifyContent : 'flex-start'}}>
                             {items.map((v)=>{
-                                return ( <a  key={v.videoId}  style={{ boxSizing : "border-box", overflow : 'hidden', width : cardWidth, position : 'relative', textDecoration: 'none', margin : '10px'}} onClick={()=> handleVideoState({index : v.position , videoId : v.videoId})}>
+                                return ( <a  key={v.videoId}  style={{ cursor : 'pointer', boxSizing : "border-box", overflow : 'hidden', width : cardWidth, position : 'relative', textDecoration: 'none', margin : '10px'}} onClick={()=> handleVideoState({index : v.position , videoId : v.videoId})}>
                                         {(v.videoId == videoId) ? playingIndicator : ""}
                                         <PLCard item={v} key={v.videoId}/> 
                                       </a>)
