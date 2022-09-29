@@ -65,27 +65,6 @@ const PlaylistPlayer = ({plId})=>{
         setItemIndex(index)
     }
     
-    let elem = document.getElementById("Player_");
-
-    /* Function to open fullscreen mode */
-    function openFullscreen() {
-      /* If fullscreen mode is available, show the element in fullscreen */
-      if (
-        document.fullscreenEnabled || /* Standard syntax */
-        document.webkitFullscreenEnabled || /* Safari */
-        document.msFullscreenEnabled /* IE11 */
-      ) {
-       
-        /* Show the element in fullscreen */
-        if (elem.requestFullscreen) {
-          elem.requestFullscreen(); /* Standard syntax */
-        } else if (elem.webkitRequestFullscreen) { /* Safari */
-          elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) { /* IE11 */
-          elem.msRequestFullscreen();
-        }
-      }
-    }
     const playingIndicator = (<div style={{ textAlign: 'center', width : "100%",position : 'absolute' ,top : 0, left : 0, background : 'rgb(0,0,0 , 0.7)'}}>
         <PlayCircleOutlineIcon sx={{color : '#ffff' , fontSize : 125}} />
     </div>)   
@@ -94,9 +73,7 @@ const PlaylistPlayer = ({plId})=>{
                 <div style={{display : 'flex', flexWrap : 'wrap'}}>
                     <div id="Player_" style={{height : `${playerHeight}px`, width : `${playerWidth}px`}}>
                             <ReactPlayer
-                                id = "myvideo"
                                 playing
-                                onSuccess={openFullscreen}
                                 onEnded= {onEndHandeler}
                                 pip = {true}
                                 stopOnUnmount={false}
