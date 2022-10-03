@@ -10,15 +10,15 @@ const loadingStateModel = {
     })
 }
 const store = createStore({
-    // playList : persist(playListModel),
-    // message : messageModel,
-    // recents : persist(recentsModel),
-    // favourite : persist(favouriteModel)
+     playList : persist(playListModel),
+     message : messageModel,
+     recents : persist(recentsModel),
+     favourite : persist(favouriteModel),
 
     loadingState : loadingStateModel,
-    playList : playListModel,
-    message : messageModel,
-    recents : recentsModel,
-    favourite : favouriteModel
+    //playList : playListModel,
+    //message : messageModel,
+    //recents : recentsModel,
+    //favourite : favouriteModel
 })
 export default store
